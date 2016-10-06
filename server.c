@@ -201,34 +201,43 @@ int same_orientation_colision (int posXA, int posYA, int posXB, int posYB, int o
   return colision;
 }
 
-int has_colision(int posXA, int posYA, int orientationA, int posXB, int posYB, int orientationB) {
+int different_orientation_colision (int posXA, int posYA, int orientationA, int posXB, int posYB, int orientationB, int ship_size) {
   int colision = 0;
-
   int i, j;
   int cA, vA, cB, vB;
+
+  if (orientationA == 0) {
+    cA = posYA;
+    vA = posXA;
+    cB = posXB;
+    vB = posYB;
+  } else {
+    cA = posXA;
+    vA = posYA;
+    cB = posYB;
+    vB = posXB;
+  }
+
+  for (i = vA; i < vA + ship_size; i++) {
+    for (j = vB; j < vB + ship_size; j++) {
+      if (i == cB && cA == j) {
+        colision = 1;
+
+        break;
+      }
+    }
+  }
+
+  return colision;
+}
+
+int has_colision(int posXA, int posYA, int orientationA, int posXB, int posYB, int orientationB) {
+  int colision = 0;
 
   if (orientationA == orientationB) {
     colision = same_orientation_colision(posXA, posYA, posXB, posYB, orientationB, SHIP_SIZE);
   } else {
-    if (orientationA == 0) {
-      cA = posYA;
-      vA = posXA;
-      cB = posXB;
-      vB = posYB;
-    } else {
-      cA = posXA;
-      vA = posYA;
-      cB = posYB;
-      vB = posXB;
-    }
-
-    for (i = vA; i < vA + SHIP_SIZE; i++) {
-      for (j = vB; j < vB + SHIP_SIZE; j++) {
-        if (i == cB && cA == j) {
-          colision = 1;
-        }
-      }
-    }
+    colision = different_orientation_colision (posXA, posYA, orientationA, posXB, posYB, orientationB, SHIP_SIZE);
   }
 
   return colision;
