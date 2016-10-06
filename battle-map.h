@@ -23,24 +23,24 @@
 #define PLAYER_SPEED 3
 
 typedef struct battle_cell {
-  // Possible values for statusA, statusB
+  // Possible values for status_a, status_b
   //  1: hit
   //  0: available
   // -1: missed
-  int statusA;
-  int statusB;
+  int status_a;
+  int status_b;
 
-  // Possible values for hasShipA, hasShipB
+  // Possible values for hasship_a, hasship_b
   // 1: there is a piece of the ship in this cell
   // 0: no ship in this cell
-  int shipA;
-  int shipB;
+  int ship_a;
+  int ship_b;
 } battle_cell;
 
 struct battlemap {
   battle_cell cell[MAP_SIZE][MAP_SIZE];
-  int progressA;
-  int progressB;
+  int progress_a;
+  int progress_b;
 };
 
 typedef struct battlemap *battlemap;

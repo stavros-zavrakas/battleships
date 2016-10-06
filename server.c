@@ -77,15 +77,15 @@ void init_map(battlemap map) {
 
   for (i = 0; i < MAP_SIZE; i++) {
     for (j = 0; j < MAP_SIZE; j++) {
-      map->cell[i][j].statusA = 0;
-      map->cell[i][j].statusB = 0;
-      map->cell[i][j].shipA = 0;
-      map->cell[i][j].shipB = 0;
+      map->cell[i][j].status_a = 0;
+      map->cell[i][j].status_b = 0;
+      map->cell[i][j].ship_a = 0;
+      map->cell[i][j].ship_b = 0;
     }
   }
 
-  map->progressA = 0;
-  map->progressB = 0;
+  map->progress_a = 0;
+  map->progress_b = 0;
 }
 
 // The orientations are represented as:
@@ -119,7 +119,7 @@ void set_ships(battlemap map) {
         int i;
 
         for (i = posXA; i < posXA + SHIP_SIZE; i++) {
-          map->cell[posYA][i].shipA = 1;
+          map->cell[posYA][i].ship_a = 1;
         }
 
         done = 1;
@@ -129,7 +129,7 @@ void set_ships(battlemap map) {
         int i;
 
         for (i = posYA; i < posYA + SHIP_SIZE; i++) {
-          map->cell[i][posXA].shipA = 1;
+          map->cell[i][posXA].ship_a = 1;
         }
 
         done = 1;
@@ -156,7 +156,7 @@ void set_ships(battlemap map) {
         if (posXB <= MAP_SIZE - SHIP_SIZE) {
           int i;
           for (i = posXB; i < posXB + SHIP_SIZE; i++) {
-            map->cell[posYB][i].shipB = 1;
+            map->cell[posYB][i].ship_b = 1;
           }
           done = 1;
         }
@@ -164,7 +164,7 @@ void set_ships(battlemap map) {
         if (posYB <= MAP_SIZE - SHIP_SIZE) {
           int i;
           for (i = posYB; i < posYB + SHIP_SIZE; i++) {
-            map->cell[i][posXB].shipB = 1;
+            map->cell[i][posXB].ship_b = 1;
           }
           done = 1;
         }
@@ -244,11 +244,11 @@ int has_colision(int posXA, int posYA, int orientationA, int posXB, int posYB, i
 }
 
 int check_for_winner(battlemap map) {
-  if (map->progressA == SHIP_SIZE) {
+  if (map->progress_a == SHIP_SIZE) {
     return 1;
   }
 
-  if (map->progressB == SHIP_SIZE) {
+  if (map->progress_b == SHIP_SIZE) {
     return 2;
   }
 
@@ -276,24 +276,24 @@ void print_map(battlemap map, int player) {
     printf("|");
     for (j = 0; j < MAP_SIZE; j++) {
       if (player == 1) {
-        if (map->cell[i][j].shipA == 1) {
+        if (map->cell[i][j].ship_a == 1) {
           printf(" A ");
         } else {
-          if ( map->cell[i][j].statusA == 0) {
+          if ( map->cell[i][j].status_a == 0) {
             printf("   ");
-          } else if (map->cell[i][j].statusA == 1) {
+          } else if (map->cell[i][j].status_a == 1) {
             printf(" X ");
           } else {
             printf(" * ");
           }
         }
       } else {
-        if (map->cell[i][j].shipB == 1) {
+        if (map->cell[i][j].ship_b == 1) {
           printf(" B ");
         } else {
-          if ( map->cell[i][j].statusB == 0) {
+          if ( map->cell[i][j].status_b == 0) {
             printf("   ");
-          } else if (map->cell[i][j].statusB == 1) {
+          } else if (map->cell[i][j].status_b == 1) {
             printf(" X ");
           } else {
             printf(" * ");
