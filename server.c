@@ -5,10 +5,8 @@
 void server_start(int shmid) {
   battlemap map;
 
-  int ret_val;
-  int pi;
-  int reqPlayer, reqX, reqY;
-  int check_winner;
+  int create_pipe_status;
+  int pipe;
   int winner_status;
   int do_exit = 0;
 
@@ -18,14 +16,14 @@ void server_start(int shmid) {
   }
 
   // Create the pipe to enable communicaton between the client and the server
-  ret_val = mkfifo(PIPE_FILE_NAME, 0666);
+  create_pipe_status = mkfifo(PIPE_FILE_NAME, 0666);
 
-  if ((ret_val == -1) && (errno != EEXIST)) {
+  if ((create_pipe_status == -1) && (errno != EEXIST)) {
     perror("Error creating the named pipe");
     exit (1);
   }
 
-  pi = open(PIPE_FILE_NAME, 0666);
+  pipe = open(PIPE_FILE_NAME, 0666);
 
   // Create the map and set the ships on the map
   init_map(map);
@@ -45,7 +43,7 @@ void server_start(int shmid) {
       winner_status = check_for_winner(map);
     }
 
-    write(pi, &winner_status, sizeof(int));
+    write(pipe, &winner_status, sizeof(int));
 
     sem_post(client_response);
 
@@ -66,7 +64,7 @@ void server_start(int shmid) {
     exit(1);
   }
 
-  close(pi);
+  close(pipe);
 
   sem_close(server_response);
   sem_close(client_response);
