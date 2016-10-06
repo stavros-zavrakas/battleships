@@ -102,13 +102,13 @@ void set_ships(battlemap map) {
 
   int done = 0;
 
-  // Iterate until the ship will be placed 
+  // Iterate until the ship will be placed
   // succesfully on the map
   do {
-    // Pick random point on the X axis 
+    // Pick random point on the X axis
     posXA = rand() % MAP_SIZE;
 
-    // Pick random point on the Y axis 
+    // Pick random point on the Y axis
     posYA = rand() % MAP_SIZE;
 
     // Pick the orientation
@@ -174,41 +174,64 @@ void set_ships(battlemap map) {
   } while (done == 0);
 }
 
+int is_smaller(int pos_a, int pos_b, int size) {
+  int smaller = 0;
+  if (abs(pos_a - pos_b) < size) {
+    smaller = 1;
+  }
+
+  return smaller;
+}
+
+int same_orientation_colision (int posXA, int posYA, int posXB, int posYB, int orientationB, int ship_size) {
+  int colision = 0;
+  int pos_a = posXA;
+  int pos_b = posXB;
+
+  if (orientationB == 1) {
+    pos_a = posYA;
+    pos_b = posYB;
+  }
+
+  int smaller = is_smaller(pos_a, pos_b, ship_size);
+  if (smaller > 0) {
+    colision = 1;
+  }
+
+  return colision;
+}
+
 int has_colision(int posXA, int posYA, int orientationA, int posXB, int posYB, int orientationB) {
+  int colision = 0;
+
+  int i, j;
+  int cA, vA, cB, vB;
+
   if (orientationA == orientationB) {
-    if (orientationB == 0) {
-      if (abs(posXA - posXB) < SHIP_SIZE) {
-        return 1;
-      }
-    } else {
-      if (abs(posYA - posYB) < SHIP_SIZE)
-        return 1;
-    }
+    colision = same_orientation_colision(posXA, posYA, posXB, posYB, orientationB, SHIP_SIZE);
   } else {
-    int i, j;
-    int *cA, *vA, *cB, *vB;
-
     if (orientationA == 0) {
-      cA = &posYA;
-      vA = &posXA;
-      cB = &posXB;
-      vB = &posYB;
+      cA = posYA;
+      vA = posXA;
+      cB = posXB;
+      vB = posYB;
     } else {
-      cA = &posXA;
-      vA = &posYA;
-      cB = &posYB;
-      vB = &posXB;
+      cA = posXA;
+      vA = posYA;
+      cB = posYB;
+      vB = posXB;
     }
 
-    for (i = *vA; i < *vA + SHIP_SIZE; i++) {
-      for (j = *vB; j < *vB + SHIP_SIZE; j++) {
-        if (i == *cB && *cA == j) {
-          return 1;
+    for (i = vA; i < vA + SHIP_SIZE; i++) {
+      for (j = vB; j < vB + SHIP_SIZE; j++) {
+        if (i == cB && cA == j) {
+          colision = 1;
         }
       }
     }
   }
-  return 0;
+
+  return colision;
 }
 
 int check_for_winner(battlemap map) {
