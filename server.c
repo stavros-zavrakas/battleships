@@ -27,7 +27,7 @@ void server_start(int shmid) {
 
   pi = open(PIPE_FILE_NAME, 0666);
 
-  // CREATING THE MAP
+  // Create the map and set the ships on the map
   init_map(map);
   set_ships(map);
 
@@ -92,7 +92,7 @@ void init_map(battlemap map) {
 void set_ships(battlemap map) {
   srand(time(NULL));
 
-  // SHIP A
+  // Ship A
   int posXA;
   int posYA;
 
@@ -111,24 +111,28 @@ void set_ships(battlemap map) {
     if (angleA == 0) {
       if (posXA <= MAP_SIZE - SHIP_SIZE) {
         int i;
-        for (i = posXA; i < posXA + SHIP_SIZE; i++)
+
+        for (i = posXA; i < posXA + SHIP_SIZE; i++) {
           map->cell[posYA][i].shipA = 1;
+        }
+
         done = 1;
       }
-
     } else {
       if (posYA <= MAP_SIZE - SHIP_SIZE) {
         int i;
-        for (i = posYA; i < posYA + SHIP_SIZE; i++)
+
+        for (i = posYA; i < posYA + SHIP_SIZE; i++) {
           map->cell[i][posXA].shipA = 1;
+        }
+
         done = 1;
       }
     }
 
   } while (done == 0);
 
-  // SHIP B
-
+  // Ship B
   int posXB;
   int posYB;
 
@@ -148,25 +152,24 @@ void set_ships(battlemap map) {
       if (angleB == 0) {
         if (posXB <= MAP_SIZE - SHIP_SIZE) {
           int i;
-          for (i = posXB; i < posXB + SHIP_SIZE; i++)
+          for (i = posXB; i < posXB + SHIP_SIZE; i++) {
             map->cell[posYB][i].shipB = 1;
+          }
           done = 1;
         }
-
       } else {
         if (posYB <= MAP_SIZE - SHIP_SIZE) {
           int i;
-          for (i = posYB; i < posYB + SHIP_SIZE; i++)
+          for (i = posYB; i < posYB + SHIP_SIZE; i++) {
             map->cell[i][posXB].shipB = 1;
+          }
           done = 1;
         }
       }
     }
 
   } while (done == 0);
-
 }
-
 
 int hasColision(int posXA, int posYA, int angleA, int posXB, int posYB, int angleB) {
   if (angleA == angleB) {
@@ -194,12 +197,13 @@ int hasColision(int posXA, int posYA, int angleA, int posXB, int posYB, int angl
       vB = &posXB;
     }
 
-    for (i = *vA; i < *vA + SHIP_SIZE; i++)
+    for (i = *vA; i < *vA + SHIP_SIZE; i++) {
       for (j = *vB; j < *vB + SHIP_SIZE; j++) {
-        if ( i == *cB && *cA == j) {
+        if (i == *cB && *cA == j) {
           return 1;
         }
       }
+    }
   }
   return 0;
 }
@@ -244,12 +248,12 @@ void print_map(battlemap map, int player) {
             printf("   ");
           } else if (map->cell[i][j].statusA == 1) {
             printf(" X ");
-          } else{
+          } else {
             printf(" * ");
           }
         }
       } else {
-        if (map->cell[i][j].shipB == 1){
+        if (map->cell[i][j].shipB == 1) {
           printf(" B ");
         } else {
           if ( map->cell[i][j].statusB == 0) {
