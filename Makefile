@@ -16,4 +16,4 @@ utils.o: utils.c utils.h
 	gcc -c utils.c
 
 clean:
-	rm game
+	rm game.o client.o server.o utils.o game

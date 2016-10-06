@@ -37,14 +37,14 @@ int main(void) {
       sem_post(client_response);
 
       // Create the thread for the first player
-      thread_status = pthread_create(&playerA, NULL, execute_playerA, (void *)shmid);
+      thread_status = pthread_create(&playerA, NULL, execute_playerA, (void *)(intptr_t)shmid);
       if (thread_status) {
         perror("pthread_create");
         exit(-1);
       }
 
       // Create the thread for the second player
-      thread_status = pthread_create(&playerB, NULL, execute_playerB, (void *)shmid);
+      thread_status = pthread_create(&playerB, NULL, execute_playerB, (void *)(intptr_t)shmid);
       if (thread_status) {
         perror("pthread_create");
         exit(-1);
