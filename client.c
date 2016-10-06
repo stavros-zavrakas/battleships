@@ -116,15 +116,15 @@ void hit(battlemap map, int reqPlayer) {
 int request_hit(battlemap map, int posX, int posY, int player) {
   int *status, ship, *progress, ownship;
   if (player == 1) {
-    status = &map->cell[ posY ][ posX ].status_a;
-    ship = map->cell[ posY ][ posX ].ship_b;
-    ownship = map->cell[ posY ][ posX ].ship_a;
-    progress = &map->progress_a;
+    status = &map->cell[ posY ][ posX ].status[PLAYER_A];
+    ship = map->cell[ posY ][ posX ].ship[PLAYER_B];
+    ownship = map->cell[ posY ][ posX ].ship[PLAYER_A];
+    progress = &map->progress[PLAYER_A];
   } else {
-    status = &map->cell[ posY ][ posX ].status_b;
-    ship = map->cell[ posY ][ posX ].ship_a;
-    ownship = map->cell[ posY ][ posX ].ship_b;
-    progress = &map->progress_b;
+    status = &map->cell[ posY ][ posX ].status[PLAYER_B];
+    ship = map->cell[ posY ][ posX ].ship[PLAYER_A];
+    ownship = map->cell[ posY ][ posX ].ship[PLAYER_B];
+    progress = &map->progress[PLAYER_B];
   }
 
   // Ask the player to choose another position
@@ -147,13 +147,13 @@ int get_standard_position(battlemap map, int *posX, int *posY, int player) {
   for (i = 0; i < MAP_SIZE; i++) {
     for (j = 0; j < MAP_SIZE; j++) {
       if (player == 1) {
-        if ( map->cell[i][j].status_a == 0 && map->cell[i][j].ship_a == 0) {
+        if ( map->cell[i][j].status[PLAYER_A] == 0 && map->cell[i][j].ship[PLAYER_A] == 0) {
           *posX = j;
           *posY = i;
           return 1;
         }
       } else {
-        if ( map->cell[i][j].status_b == 0 && map->cell[i][j].ship_b == 0) {
+        if ( map->cell[i][j].status[PLAYER_B] == 0 && map->cell[i][j].ship[PLAYER_B] == 0) {
           *posX = j;
           *posY = i;
           return 1;
