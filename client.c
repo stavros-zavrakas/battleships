@@ -1,10 +1,11 @@
+#include "common.h"
 #include "utils.h"
 #include "battle-map.h"
 #include "client.h"
 
 void *execute_playerA(void *shmid) {
   battlemap map;
-  
+
   int pi;
   int reqPlayer = 1;
   int winner_status = 0;

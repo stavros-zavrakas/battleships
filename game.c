@@ -1,3 +1,4 @@
+#include "common.h"
 #include "battle-map.h"
 #include "utils.h"
 
