@@ -42,7 +42,7 @@ void server_start(int shmid) {
     sem_wait(server_response);
 
     if (do_exit == 0) {
-      winner_status = checkForWinner(map);
+      winner_status = check_for_winner(map);
     }
 
     write(pi, &winner_status, sizeof(int));
@@ -148,7 +148,7 @@ void set_ships(battlemap map) {
 
     angleB = rand() % 2;
 
-    if (hasColision(posXA, posYA, angleA, posXB, posYB, angleB) == 0) {
+    if (has_colision(posXA, posYA, angleA, posXB, posYB, angleB) == 0) {
       if (angleB == 0) {
         if (posXB <= MAP_SIZE - SHIP_SIZE) {
           int i;
@@ -171,7 +171,7 @@ void set_ships(battlemap map) {
   } while (done == 0);
 }
 
-int hasColision(int posXA, int posYA, int angleA, int posXB, int posYB, int angleB) {
+int has_colision(int posXA, int posYA, int angleA, int posXB, int posYB, int angleB) {
   if (angleA == angleB) {
     if (angleB == 0) {
       if (abs(posXA - posXB) < SHIP_SIZE) {
@@ -208,7 +208,7 @@ int hasColision(int posXA, int posYA, int angleA, int posXB, int posYB, int angl
   return 0;
 }
 
-int checkForWinner(battlemap map) {
+int check_for_winner(battlemap map) {
   if (map->progressA == SHIP_SIZE) {
     return 1;
   }
