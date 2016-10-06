@@ -17,7 +17,7 @@ void server_start(int shmid) {
     exit(1);
   }
 
-  // Create the pipe to enable communicaton between the threads
+  // Create the pipe to enable communicaton between the client and the server
   ret_val = mkfifo(PIPE_FILE_NAME, 0666);
 
   if ((ret_val == -1) && (errno != EEXIST)) {
