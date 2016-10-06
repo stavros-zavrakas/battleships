@@ -10,7 +10,7 @@ int main(void) {
   // Shared Memory vars
   key_t key = SHM_KEY;
   int shmid;
-  int shmsize = sizeof(struct battlemap);
+  int shmsize = sizeof(battlemap);
 
   // Try to create the shared memory
   if ((shmid = shmget(key, shmsize, IPC_CREAT | 0666)) < 0) {
