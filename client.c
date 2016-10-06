@@ -2,14 +2,9 @@
 #include "battle-map.h"
 #include "client.h"
 
-int request_hit(battlemap map, int posX, int posY, int player);
-
-void hit(battlemap map, int reqPlayer);
-
-int get_standard_position(battlemap map, int *posX, int *posY, int player);
-
 void *execute_playerA(void *shmid) {
   battlemap map;
+  
   int pi;
   int reqPlayer = 1;
   int winner_status = 0;
@@ -21,7 +16,7 @@ void *execute_playerA(void *shmid) {
 
   pi = open(PIPE_FILE_NAME, 0666);
 
-  // Waiting for the ready signal of the second player 
+  // Waiting for the ready signal of the second player
   sem_wait(&players_ready);
 
   srand(time(NULL));
@@ -132,7 +127,7 @@ int request_hit(battlemap map, int posX, int posY, int player) {
   }
 
   // Ask the player to choose another position
-  if ( *status != 0 || ownship == 1) {
+  if (*status != 0 || ownship == 1) {
     return 0;
   }
 
