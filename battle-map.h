@@ -37,13 +37,13 @@ typedef struct battle_cell {
   int shipB;
 } battle_cell;
 
-struct bmap {
+struct battlemap {
   battle_cell cell[MAP_SIZE][MAP_SIZE];
   int progressA;
   int progressB;
 };
 
-typedef struct bmap *battlemap;
+typedef struct battlemap *battlemap;
 
 void execute_server(int shmid);
 void *execute_playerA(void *shmid);
