@@ -83,10 +83,14 @@ void init_map(battlemap map) {
       map->cell[i][j].shipB = 0;
     }
   }
+
   map->progressA = 0;
   map->progressB = 0;
 }
 
+// The orientations are represented as:
+// 0 - horizontal
+// 1 - vertical
 void set_ships(battlemap map) {
   srand(time(NULL));
 
@@ -94,19 +98,23 @@ void set_ships(battlemap map) {
   int posXA;
   int posYA;
 
-  int angleA;
-  // angle = 0 - Horizontal
-  // angle = 1 - Vertically
+  int orientationA;
 
   int done = 0;
 
+  // Iterate until the ship will be placed 
+  // succesfully on the map
   do {
+    // Pick random point on the X axis 
     posXA = rand() % MAP_SIZE;
+
+    // Pick random point on the Y axis 
     posYA = rand() % MAP_SIZE;
 
-    angleA = rand() % 2;
+    // Pick the orientation
+    orientationA = rand() % 2;
 
-    if (angleA == 0) {
+    if (orientationA == 0) {
       if (posXA <= MAP_SIZE - SHIP_SIZE) {
         int i;
 
@@ -127,16 +135,13 @@ void set_ships(battlemap map) {
         done = 1;
       }
     }
-
   } while (done == 0);
 
   // Ship B
   int posXB;
   int posYB;
 
-  int angleB;
-  // angle = 0 - Horizontal
-  // angle = 1 - Vertically
+  int orientationB;
 
   done = 0;
 
@@ -144,10 +149,10 @@ void set_ships(battlemap map) {
     posXB = rand() % MAP_SIZE;
     posYB = rand() % MAP_SIZE;
 
-    angleB = rand() % 2;
+    orientationB = rand() % 2;
 
-    if (has_colision(posXA, posYA, angleA, posXB, posYB, angleB) == 0) {
-      if (angleB == 0) {
+    if (has_colision(posXA, posYA, orientationA, posXB, posYB, orientationB) == 0) {
+      if (orientationB == 0) {
         if (posXB <= MAP_SIZE - SHIP_SIZE) {
           int i;
           for (i = posXB; i < posXB + SHIP_SIZE; i++) {
@@ -169,9 +174,9 @@ void set_ships(battlemap map) {
   } while (done == 0);
 }
 
-int has_colision(int posXA, int posYA, int angleA, int posXB, int posYB, int angleB) {
-  if (angleA == angleB) {
-    if (angleB == 0) {
+int has_colision(int posXA, int posYA, int orientationA, int posXB, int posYB, int orientationB) {
+  if (orientationA == orientationB) {
+    if (orientationB == 0) {
       if (abs(posXA - posXB) < SHIP_SIZE) {
         return 1;
       }
@@ -183,7 +188,7 @@ int has_colision(int posXA, int posYA, int angleA, int posXB, int posYB, int ang
     int i, j;
     int *cA, *vA, *cB, *vB;
 
-    if (angleA == 0) {
+    if (orientationA == 0) {
       cA = &posYA;
       vA = &posXA;
       cB = &posXB;
