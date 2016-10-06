@@ -22,7 +22,7 @@
 // The CPU player speed
 #define PLAYER_SPEED 3
 
-typedef struct battlecell {
+typedef struct battle_cell {
   // Possible values for statusA, statusB
   //  1: hit
   //  0: available
@@ -35,15 +35,15 @@ typedef struct battlecell {
   // 0: no ship in this cell
   int shipA;
   int shipB;
-} cell0;
+} battle_cell;
 
 struct bmap {
-  cell0 cell[MAP_SIZE][MAP_SIZE];
+  battle_cell cell[MAP_SIZE][MAP_SIZE];
   int progressA;
   int progressB;
 };
 
-typedef struct bmap * battlemap;
+typedef struct bmap *battlemap;
 
 void execute_server(int shmid);
 void *execute_playerA(void *shmid);
