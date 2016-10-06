@@ -14,7 +14,7 @@ void *execute_playerA(void *shmid) {
   int reqPlayer = 1;
   int winner_status = 0;
 
-  if ((map = shmat((int)shmid, NULL, 0)) == (battlemap) - 1) {
+  if ((map = shmat((long)shmid, NULL, 0)) == (battlemap) - 1) {
     perror("shmat");
     exit(1);
   }
@@ -58,7 +58,7 @@ void *execute_playerB(void *shmid) {
   int reqPlayer = 2;
   int winner_status = 0;
 
-  if ((map = shmat((int)shmid, NULL, 0)) == (battlemap) - 1) {
+  if ((map = shmat((long)shmid, NULL, 0)) == (battlemap) - 1) {
     perror("shmat");
     exit(1);
   }
