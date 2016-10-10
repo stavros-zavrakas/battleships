@@ -97,10 +97,15 @@ void hit(battlemap map, int reqPlayer) {
   int req_status, reqX, reqY;
 
   do {
+    // Attempt 3 times to find an available squre.
+    // if the random choice will fail after three times, it will scan
+    // the grid and it will pick the first available.
     if (attemps < 3) {
       reqX = rand() % MAP_SIZE;
       reqY = (rand() + 112) % MAP_SIZE;
     } else {
+      // Pass the reference for the reqX and the reqY and just return
+      // the status (succesfull = 1, unsuccesful = 0)
       if (get_standard_position(map, &reqX, &reqY, reqPlayer) == 0) {
         puts("ERROR");
       }
@@ -114,16 +119,21 @@ void hit(battlemap map, int reqPlayer) {
 }
 
 int request_hit(battlemap map, int posX, int posY, int player) {
-  int *status, ship, *progress, ownship;
+  int ship;
+  int ownship;
+  
+  int *status;
+  int *progress;
+
   if (player == 1) {
-    status = &map->cell[ posY ][ posX ].status[PLAYER_A];
-    ship = map->cell[ posY ][ posX ].ship[PLAYER_B];
-    ownship = map->cell[ posY ][ posX ].ship[PLAYER_A];
+    status = &map->cell[posY][posX].status[PLAYER_A];
+    ship = map->cell[posY][posX].ship[PLAYER_B];
+    ownship = map->cell[posY][posX].ship[PLAYER_A];
     progress = &map->progress[PLAYER_A];
   } else {
-    status = &map->cell[ posY ][ posX ].status[PLAYER_B];
-    ship = map->cell[ posY ][ posX ].ship[PLAYER_A];
-    ownship = map->cell[ posY ][ posX ].ship[PLAYER_B];
+    status = &map->cell[posY][posX].status[PLAYER_B];
+    ship = map->cell[posY][posX].ship[PLAYER_A];
+    ownship = map->cell[posY][posX].ship[PLAYER_B];
     progress = &map->progress[PLAYER_B];
   }
 
