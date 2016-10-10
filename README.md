@@ -14,6 +14,13 @@
 
 ## Description
 
+This is the well known battleship game and is implemented using basic concepts of IPC (InterProcess Communication) and POSIX threads. The tools that are used int this project are: 
+- named pipes
+- shared memory
+- processes
+- threads
+- semaphores
+
 The program is creating 2 processes, the parent process is playing the role of the server and the child process is spawning 2 threads that are playing the role of the 2 players (clients).
 
 When the program starts we are creating a shared memory space and 2 POSIX semaphores that will be used to synchronize the server with the client. After the fork that creates the server and the client process, the client process is waiting a signal from the server that the battle map is ready with the two ships in place. After receiving the signal, the client send its signal to inform the server that the game will start and has to wait for the player turns. The client process (child) is creating the 2 POSIX threads that are executing the execute_playerA function and the execute_playerB respectively. These threads have access to the shared memory that we' ve created when the program started. After the creation of the first thread that will be used from the first player, this thread is waiting until the second thread (second player) will be ready. When the second thread is ready, it is sending a signal to the first thread to start the battle. A named pipe is used to pass messages between the client and the server, a message can be if there is a winner for the game.
