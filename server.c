@@ -259,11 +259,11 @@ int check_for_winner(battlemap map) {
 void print_map(battlemap map, int player) {
   int i, j;
 
-  printf("\n  ========= BATTLE WINNER :");
+  printf("\n The winner is ");
   if (player == 1) {
-    puts(" Player A =========");
+    puts("player A");
   } else {
-    puts(" Player B =========");
+    puts("player B");
   }
 
   printf(",");
