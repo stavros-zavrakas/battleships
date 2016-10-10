@@ -1,12 +1,12 @@
 # Battleships!
 
-*Compile by typing:*
+**Compile by typing:**
 `make all`
 
-*Clean the itermediate files and the gemerated binary by typing:*
+**Clean the itermediate files and the gemerated binary by typing:**
 `make clean`
 
-*Start the game by typing:*
+**Start the game by typing:**
 `./game`
 
 ## Description
